@@ -3,7 +3,7 @@
 pip install -r requirements.txt安装依赖项
 
 ## 配置
-打开可用的jm网站(可前往[禁漫天堂发布页](https://jmcomic.github.io)查看)
+打开可用的jm网站(可前往[禁漫天堂发布页](https://jmcmomic.github.io)查看)
 
 复制网址添加至option.yml里domain的第一个
 
