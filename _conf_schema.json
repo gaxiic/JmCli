@@ -1,0 +1,23 @@
+{
+    "domain_list": {
+        "description": "禁漫域名列表",
+        "type": "list",
+        "hint": "多个域名会自动尝试切换，可前往禁漫发布页查看可用的域名",
+        "default": [
+            "18comic.vip"
+        ],
+        "obvious_hint": true
+    },
+    "avs_cookie": {
+        "description": "AVS Cookie值",
+        "type": "string",
+        "hint": "从浏览器获取的AVS Cookie，用于身份验证，可前往README查看具体教程和说明",
+        "default": null
+    },
+    "proxy": {
+        "description": "代理设置",
+        "type": "string",
+        "hint": "（非必填）HTTP/HTTPS代理地址，例如: http://127.0.0.1:8080",
+        "default": null
+    }
+}
