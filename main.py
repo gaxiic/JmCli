@@ -2,26 +2,69 @@ from astrbot.api.message_components import File, Image, Plain
 from astrbot.api.event import filter, AstrMessageEvent
 from astrbot.api.star import Context, Star, register
 from astrbot.api.all import *
+from astrbot.api import AstrBotConfig
 
 import asyncio
 import os
 import glob
 import random
+import yaml
 
 import jmcomic
 from jmcomic import JmMagicConstants
 
-@register("JmCli", "Gaxiic", "JM命令行工具，实现了5个功能：根据ID下载、根据ID查询、根据关键词查询、根据作者查询、随机推荐，输入jm_help查看用法", "1.0.0")
+@register("JmCli", "Gaxiic", "JM命令行工具", "1.0.0")
 class JMPlugin(Star):
-    def __init__(self, context: Context):
+    def __init__(self, context: Context, config: AstrBotConfig):
         super().__init__(context)
         self.downloading = set()
         self.downloading_covers = set()
         self.base_path = os.path.abspath(os.path.dirname(__file__))
-        self.option = self._load_config()
+        self.config = config
+        self.option = self._create_option()
 
-    def _load_config(self):
-        return jmcomic.create_option_by_file(os.path.join(self.base_path, "option.yml"))
+    def _create_option(self):
+        # option
+        option_dict = {
+            "client": {
+                "impl": "html",
+                "domain": self.config.domain_list,
+                "retry_times": 5,
+                "postman": {
+                    "meta_data": {
+                        "proxies": {"https": self.config.proxy} if self.config.proxy else None,
+                        "cookies": {"AVS": self.config.avs_cookie}
+                    }
+                }
+            },
+            "download": {
+                "cache": True,
+                "image": {
+                    "decode": True,
+                    "suffix": ".jpg"
+                },
+                "threading": {
+                    "image": 10,
+                    "photo": 10
+                }
+            },
+            "dir_rule": {
+                "base_dir": os.path.join(self.base_path, "picture")
+            },
+            "plugins": {
+                "after_album": [
+                    {
+                        "plugin": "img2pdf",
+                        "kwargs": {
+                            "pdf_dir": os.path.join(self.base_path, "pdf"),
+                            "filename_rule": "Aid"
+                        }
+                    }
+                ]
+            }
+        }
+        yaml_str = yaml.safe_dump(option_dict, allow_unicode=True)
+        return jmcomic.create_option_by_str(yaml_str)
 
     async def _get_client(self):
         return self.option.new_jm_client()
@@ -273,11 +316,13 @@ class JMPlugin(Star):
             "3️⃣/jm作者 [作者] [序号]\n"
             "4️⃣/jm搜索 [关键词] [序号]\n"
             "5️⃣/jm推荐\n"
+            "6️⃣/jm_help\n"
             "📌说明：\n"
             "1️⃣根据ID查询(1空格)\n"
             "2️⃣根据ID下载(1空格)\n"
             "3️⃣检索[作者]的本子，返回第[次序](时间降序)本本子(2空格)\n"
             "4️⃣检索含[关键词]的本子，返回第[次序]本本子(2空格)\n"
-            "5️⃣从月排行随机推荐"
+            "5️⃣从月排行随机推荐\n"
+            "6️⃣查看帮助\n"
         )
         yield event.plain_result(help_text)
