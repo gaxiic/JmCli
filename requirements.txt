@@ -1,2 +1,4 @@
-jmcomic
-img2pdf
+jmcomic>=2.5.32
+img2pdf>=0.4.0
+aiohttp>=3.11.14
+pyyaml>=6.0.2
