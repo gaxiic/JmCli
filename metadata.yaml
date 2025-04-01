@@ -1,6 +1,6 @@
 name: JmCli
-desc: JM命令行工具，实现了5个功能：根据ID下载、根据ID查询、根据关键词查询、根据作者查询、随机推荐，输入jm_help查看用法
-help: 使用 /jm_help查看帮助
+desc: JM命令行工具，提供下载和带封面的查询搜索功能
+help: 安装后输入/jm_help查看帮助和用法
 version: v1.0.0
 author: Gaxiic
 repo: https://github.com/gaxiic/JmCli
