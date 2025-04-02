@@ -33,6 +33,10 @@ pip install -r requirements.txt安装依赖项
 
 3. AVS值只对应一个网址，建议将访问最快的网址添加到列表的第一个（最上面）
 
+4. 注意频繁使用插件会被禁漫封锁IP
+
+5. 未配置直接使用也查询下载大部分漫画，想获取全部漫画请进行配置 
+
 ## 支持
 ### 文档
 [Astrbot文档](https://astrbot.app/what-is-astrbot.html)
