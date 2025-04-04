@@ -1,6 +1,6 @@
-name: JmCli
+name: jmcli
 desc: JM禁漫漫画命令行工具，提供下载和带封面的查询搜索功能
 help: 安装后输入/jm_help查看帮助和用法
-version: v1.0.1
+version: v1.0.2
 author: Gaxiic
 repo: https://github.com/gaxiic/JmCli

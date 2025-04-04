@@ -13,13 +13,13 @@ import yaml
 import jmcomic
 from jmcomic import JmMagicConstants
 
-@register("JmCli", "Gaxiic", "JM命令行工具", "1.0.0")
+@register("jmcli", "Gaxiic", "JM禁漫漫画命令行工具", "1.0.2")
 class JMPlugin(Star):
     def __init__(self, context: Context, config: AstrBotConfig):
         super().__init__(context)
         self.downloading = set()
         self.downloading_covers = set()
-        self.base_path = os.path.abspath(os.path.dirname(__file__))
+        self.base_path = os.path.realpath(os.path.dirname(__file__))# v1.0.2更新，abspath改为realpath，以适应linux
         self.config = config
         self.option = self._create_option()
 
@@ -170,7 +170,7 @@ class JMPlugin(Star):
         if not pdf_files:
             return event.plain_result("PDF生成失败")
         
-        os.rename(max(pdf_files, key=os.path.getctime), pdf_path)
+        os.rename(max(pdf_files, key=os.path.getmtime), pdf_path)# v1.0.2更新，换成getmtime适配linux
         return event.chain_result([File(name=f"{album_id}.pdf", file=pdf_path)])
 
     @filter.command("jm推荐")
